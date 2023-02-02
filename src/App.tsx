@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import css from './App.module.scss'
 import tinycolor from 'tinycolor2'
+import izitoast from 'izitoast'
 export interface Record {
   time: Date
   color: string
@@ -79,7 +80,16 @@ function App() {
               <i style={{ backgroundColor: d.color }}></i>
               <span>{d.hsl}</span>
               <button className={css.copyBtn} onClick={e => {
-                navigator.clipboard.writeText(`${d.time.toLocaleString()} ${d.color} ${d.hsl}`)
+                navigator.clipboard.writeText(`${d.time.toLocaleString()} ${d.color} ${d.hsl}`).then(() => {
+                  izitoast.success({
+                    title: '复制成功'
+                  })
+                }).catch(err => {
+                  console.error(err)
+                  izitoast.error({
+                    title: '复制失败:'+err.message
+                  })
+                })
               }}>复制</button>
             </div>
           )

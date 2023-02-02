@@ -19,20 +19,24 @@ function App() {
 
     // Put video listeners into place
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({
-        video: {
-          width: 320,
-          height: 320,
-        },
-      }).then(function (stream) {
-        stream.addEventListener('addtrack', console.log)
-        stream.addEventListener('removetrack', console.log)
-        video.srcObject = stream
-        video.play().catch(console.error)
-        let w = window as any
-        w['video'] = video
-        w['stream'] = stream
-      }).catch(console.error)
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        navigator.mediaDevices.getUserMedia({
+          video: {
+            width: 320,
+            height: 320,
+            deviceId: devices.filter(d => d.kind == 'videoinput').slice(-1)[0].deviceId,
+          },
+        }).then(function (stream) {
+          stream.addEventListener('addtrack', console.log)
+          stream.addEventListener('removetrack', console.log)
+          video.srcObject = stream
+          video.play().catch(console.error)
+          let w = window as any
+          w['video'] = video
+          w['stream'] = stream
+        }).catch(console.error)
+      })
+
     }
   }, [])
   return (

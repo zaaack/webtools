@@ -20,6 +20,7 @@ function App() {
     // Put video listeners into place
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.enumerateDevices().then(devices => {
+        console.log(devices.filter(d => d.kind == 'videoinput'))
         navigator.mediaDevices.getUserMedia({
           video: {
             width: 320,

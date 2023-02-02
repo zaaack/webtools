@@ -501,6 +501,11 @@ electron-to-chromium@^1.4.284:
   resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz#61046d1e4cab3a25238f6bf7413795270f125592"
   integrity sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==
 
+eruda@^2.11.2:
+  version "2.11.2"
+  resolved "https://registry.npmmirror.com/eruda/-/eruda-2.11.2.tgz#0109fea9a86a809afd8f71626ff60f6c16f36991"
+  integrity sha512-WN/o7sKlkOwGUDju0hCwfqvCmGiZFzWAbxT0LF+TA/kuJmcBPoNr0OMrnoEoKJWQqrVzVlZpLON4vegpsoSaPQ==
+
 esbuild@^0.16.3:
   version "0.16.17"
   resolved "https://registry.npmmirror.com/esbuild/-/esbuild-0.16.17.tgz#fc2c3914c57ee750635fee71b89f615f25065259"

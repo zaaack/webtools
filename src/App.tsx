@@ -78,6 +78,9 @@ function App() {
               <span>{d.time.toLocaleString()}</span>
               <i style={{ backgroundColor: d.color }}></i>
               <span>{d.hsl}</span>
+              <button className={css.copyBtn} onClick={e => {
+                navigator.clipboard.writeText(`${d.time.toLocaleString()} ${d.color} ${d.hsl}`)
+              }}>复制</button>
             </div>
           )
         })}

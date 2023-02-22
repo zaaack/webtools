@@ -64,7 +64,7 @@ function App() {
           })
           setData([{
             time: new Date,
-            color: c.toHex8String(),
+            color: c.toRgbString(),
             hsl: c.toHslString()
           }, ...data])
           console.log(d,c)

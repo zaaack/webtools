@@ -11,6 +11,7 @@ export function Timer(props: Props) {
   const [start, setStart] = useState(0)
   const [state, setState] = useState<'ready' | 'start' | 'end'>('ready')
   const [loop, setLoop] = useState(false)
+  const [log, setLog] = useState<string[]>([])
   // const [remain, setRemain] = useState(time * 60 *1000)
   const remain =
     time * 60 * 1000 -
@@ -22,7 +23,6 @@ export function Timer(props: Props) {
       ? time * 60 * 1000
       : 0)
   useEffect(() => {
-    document.title = '计时器'
     let t = setInterval(() => {
       setRefresh((s) => s + 1)
       if (remain <= 100 && state !== 'end' && !loop) {
@@ -31,6 +31,15 @@ export function Timer(props: Props) {
     }, 100)
     return () => clearInterval(t)
   }, [remain, state, loop])
+  useEffect(() =>{
+    document.title = '计时器'
+    window.addEventListener('message', e => {
+      let data = JSON.parse(e.data)
+      if (data.type === 'log') {
+        setLog(l =>l.concat(data.data))
+      }
+    })
+  }, [])
 
   return (
     <div>
@@ -78,6 +87,20 @@ export function Timer(props: Props) {
           开始
         </button>
       </div>
+      <div >
+        {log.map(l => <div>{l}</div>)}
+      </div>
+      <textarea id="eval" style={{ width: '100%', height: 200}}>
+      new Notification('haha')
+      </textarea>
+      <button onClick={e =>{
+        let t = document.querySelector<HTMLTextAreaElement>('#eval')
+        try {
+          eval(`${t?.value!}`)
+        } catch(e: any) {
+          setLog(l=>l.concat(e.message))
+        }
+      }}>执行js</button>
     </div>
   )
 }

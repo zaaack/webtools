@@ -13,10 +13,8 @@ self.addEventListener('message', (e) => {
       const noti = new Notification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
       })
       console.log('noti')
+      self.postMessage(JSON.stringify({type: 'log', data:'noti'}))
     }, data.time * 1000 * 60)
-    // let updateTimer = () => {
-    //   (Date.now() - start) % data.time
-    // }
     clearTimer = () => clear(timer)
   }
 })

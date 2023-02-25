@@ -87,6 +87,10 @@ export function Timer(props: Props) {
           开始
         </button>
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
       <div >
         {log.map(l => <div>{l}</div>)}
       </div>

@@ -2,7 +2,9 @@ import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import Worker from './worker?worker'
 const worker = new Worker()
-Notification.requestPermission()
+if (window.Notification) {
+  Notification.requestPermission()
+}
 export interface Props {}
 
 export function Timer(props: Props) {

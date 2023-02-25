@@ -10,10 +10,14 @@ self.addEventListener('message', (e) => {
     clearTimer && clearTimer()
     let start = Date.now()
     let timer = set(() => {
-      const noti = new Notification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
-      })
-      console.log('noti')
       self.postMessage(JSON.stringify({type: 'log', data:'noti'}))
+      console.log('noti')
+      try {
+        const noti = new Notification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
+        })
+      } catch (error: any) {
+        self.postMessage(JSON.stringify({type: 'log', data:error.message}))
+      }
     }, data.time * 1000 * 60)
     clearTimer = () => clear(timer)
   }

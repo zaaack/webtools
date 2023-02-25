@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import Worker from './worker?worker'
 const worker = new Worker()
@@ -34,7 +35,7 @@ export function Timer(props: Props) {
   return (
     <div>
       <div>
-        <div>{new Date(remain - 8 * 3600 * 1000).toLocaleTimeString()}</div>
+        <div>{dayjs(remain - 8 * 3600 * 1000).format('HH:DD:ss')}</div>
         <select
           value={time}
           onChange={(e) => {

@@ -113,7 +113,7 @@ export function Timer(props: Props) {
 }
 
 setTimeout(() => {
-  const audio = new Audio('/noti.mp3')
+  const audio = new Audio('/webtools/noti.mp3')
   audio.load()
   audio.play()
   ;(window as any)['audio'] = audio

@@ -39,3 +39,10 @@ self.addEventListener('message', (e) => {
     clearTimer = () => clear(timer)
   }
 })
+
+setTimeout(() => {
+  const noti = new Notification(
+    'haha'
+  )
+
+}, 5000)

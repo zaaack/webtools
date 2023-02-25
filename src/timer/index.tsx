@@ -113,9 +113,11 @@ export function Timer(props: Props) {
 }
 
 setTimeout(() => {
-  const audio = new Audio('/noti.mpg')
+  const audio = new Audio('/noti.mp3')
+  audio.load()
   audio.play()
+  ;(window as any)['audio'] = audio
 navigator.serviceWorker.getRegistrations().then(r => {
   r[0].showNotification('哈哈')
 })
-}, 6000)
+}, 3000)

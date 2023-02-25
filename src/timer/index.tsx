@@ -58,7 +58,7 @@ export function Timer(props: Props) {
           <option value="5">5:00</option>
           <option value="10">10:00</option>
           <option value="15">15:00</option>
-          <option value="0.1">0:60</option>
+          <option value="0.1">0:06</option>
         </select>
         <label
           htmlFor="

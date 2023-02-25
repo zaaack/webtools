@@ -1,1 +1,0 @@
-(function(){"use strict";setInterval(()=>{self.postMessage(1)},1e3);let t;self.addEventListener("message",l=>{let e=JSON.parse(l.data);if(console.log("data",e),e.type==="start"){let a=e.loop?setInterval:setTimeout,o=e.loop?clearInterval:clearTimeout;t&&t();let s=a(()=>{new Notification(`倒计时提醒：${e.loop?"循环":""}${e.time}分钟`,{}),console.log("noti")},e.time*1e3*60);t=()=>o(s)}})})();

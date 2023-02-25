@@ -6,29 +6,30 @@ export interface Props {}
 
 export function Timer(props: Props) {
   const [refresh, setRefresh] = useState(0)
-  const [time, setTime] = useState(0.1)
+  const [time, setTime] = useState(1)
   const [start, setStart] = useState(0)
   const [state, setState] = useState<'ready' | 'start' | 'end'>('ready')
-  const [loop, setLoop] = useState(true)
+  const [loop, setLoop] = useState(false)
+  // const [remain, setRemain] = useState(time * 60 *1000)
   const remain =
     time * 60 * 1000 -
     (state === 'ready'
       ? 0
       : state === 'start'
-      ? Date.now() - start
+      ? (Date.now() - start) % (time*60*1000)
       : state === 'end'
       ? time * 60 * 1000
       : 0)
   useEffect(() => {
-    document.title ='计时器'
+    document.title = '计时器'
     let t = setInterval(() => {
       setRefresh((s) => s + 1)
-      if (remain <= 0 && state !== 'end') {
+      if (remain <= 0 && state !== 'end' && !loop) {
         setState('end')
       }
-    }, 300)
+    }, 100)
     return () => clearInterval(t)
-  }, [remain, state])
+  }, [remain, state, loop])
 
   return (
     <div>
@@ -41,7 +42,6 @@ export function Timer(props: Props) {
             setState('ready')
           }}
         >
-          <option value="0.1">0:06</option>
           <option value="1">1:00</option>
           <option value="3">3:00</option>
           <option value="5">5:00</option>

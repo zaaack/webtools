@@ -1,7 +1,4 @@
 export {}
-setInterval(() => {
-  self.postMessage(1)
-}, 1000)
 
 let clearTimer: () => void
 self.addEventListener('message', (e) => {
@@ -11,11 +8,15 @@ self.addEventListener('message', (e) => {
     let set = data.loop ? setInterval : setTimeout
     let clear = data.loop ? clearInterval : clearTimeout
     clearTimer && clearTimer()
+    let start = Date.now()
     let timer = set(() => {
       const noti = new Notification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
       })
       console.log('noti')
     }, data.time * 1000 * 60)
+    // let updateTimer = () => {
+    //   (Date.now() - start) % data.time
+    // }
     clearTimer = () => clear(timer)
   }
 })

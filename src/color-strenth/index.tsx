@@ -14,6 +14,7 @@ function App() {
   const [data, setData] = useState<Record[]>([])
 
   useEffect(() => {
+    document.title ='颜色强度计'
     var canvas = canvasRef.current!
     ctxRef.current = canvas.getContext('2d')
     var video = videoRef.current!

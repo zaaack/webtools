@@ -8,7 +8,6 @@ import { Timer } from './timer'
 function Home() {
   return (
     <div>
-
       <Link to="/color-strenth">颜色强度计</Link><br/>
       <Link to="/timer">计时器</Link>
     </div>

@@ -20,6 +20,7 @@ export function Timer(props: Props) {
       ? time * 60 * 1000
       : 0)
   useEffect(() => {
+    document.title ='计时器'
     let t = setInterval(() => {
       setRefresh((s) => s + 1)
       if (remain <= 0 && state !== 'end') {
@@ -28,6 +29,7 @@ export function Timer(props: Props) {
     }, 300)
     return () => clearInterval(t)
   }, [remain, state])
+
   return (
     <div>
       <div>

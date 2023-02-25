@@ -1,11 +1,47 @@
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import Worker from './worker?worker'
-const worker = new Worker()
 if (window.Notification) {
   Notification.requestPermission()
 }
 export interface Props {}
+
+let clearTimer: () => void
+function startTimer(data: { loop: boolean; time: number }) {
+  let set = data.loop ? setInterval : setTimeout
+  let clear = data.loop ? clearInterval : clearTimeout
+  clearTimer && clearTimer()
+  let start = Date.now()
+  let timer = set(() => {
+    self.postMessage(JSON.stringify({ type: 'log', data: 'noti' }))
+    console.log('noti')
+    try {
+      navigator.serviceWorker
+        .getRegistration('./sw.js')
+        .then((reg) => {
+          reg?.showNotification(
+            '倒计时提醒：' + `${data.loop ? '循环' : ''}${data.time}分钟`,
+            {}
+          )
+        })
+        .catch((err) => {
+          self.postMessage(JSON.stringify({ type: 'log', data: err.message }))
+        })
+    } catch (error: any) {
+      self.postMessage(JSON.stringify({ type: 'log', data: error.message }))
+    }
+    try {
+      const audio = new Audio(
+        `${process.env.NODE_ENV === 'development' ? '' : '/webtools'}/noti.mp3`
+      )
+      audio.load()
+      audio.play()
+    } catch (error: any) {
+      self.postMessage(JSON.stringify({ type: 'log', data: error.message }))
+    }
+  }, data.time * 1000 * 60)
+  clearTimer = () => clear(timer)
+}
 
 export function Timer(props: Props) {
   const [refresh, setRefresh] = useState(0)
@@ -20,26 +56,27 @@ export function Timer(props: Props) {
     (state === 'ready'
       ? 0
       : state === 'start'
-      ? (Date.now() - start) % (time*60*1000)
+      ? (Date.now() - start) % (time * 60 * 1000)
       : state === 'end'
       ? time * 60 * 1000
       : 0)
   useEffect(() => {
     let t = setInterval(() => {
       setRefresh((s) => s + 1)
-      if (remain <= 100 && state !== 'end' && !loop) {
+      if (remain <= 1000 && state !== 'end' && !loop) {
         setState('end')
       }
     }, 100)
     return () => clearInterval(t)
   }, [remain, state, loop])
-  useEffect(() =>{
+  useEffect(() => {
     document.title = '计时器'
-    worker.addEventListener('message', e => {
-      console.log(e.data)
-      let data = JSON.parse(e.data)
-      if (data.type === 'log') {
-        setLog(l =>l.concat(data.data))
+    self.addEventListener('message', (e) => {
+      if (typeof e.data === 'string' && e.data[0] === '{') {
+        let data = JSON.parse(e.data)
+        if (data.type === 'log') {
+          setLog((l) => l.concat(data.data))
+        }
       }
     })
   }, [])
@@ -76,13 +113,10 @@ export function Timer(props: Props) {
         <br />
         <button
           onClick={(e) => {
-            worker.postMessage(
-              JSON.stringify({
-                type: 'start',
-                loop,
-                time,
-              })
-            )
+            startTimer({
+              loop,
+              time,
+            })
             setStart(Date.now())
             setState('start')
           }}
@@ -94,20 +128,13 @@ export function Timer(props: Props) {
       <br />
       <br />
       <br />
-      <div >
-        {log.map(l => <div>{l}</div>)}
-      </div>
-      <textarea id="eval" style={{ width: '100%', height: 200}}>
-      new Notification('haha')
-      </textarea>
-      <button onClick={e =>{
-        let t = document.querySelector<HTMLTextAreaElement>('#eval')
-        try {
-          eval(`${t?.value!}`)
-        } catch(e: any) {
-          setLog(l=>l.concat(e.message))
-        }
-      }}>执行js</button>
+      {location.search.includes('debug') && (
+        <div>
+          {log.map((l) => (
+            <div>{l}</div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -117,7 +144,7 @@ setTimeout(() => {
   audio.load()
   audio.play()
   ;(window as any)['audio'] = audio
-navigator.serviceWorker.getRegistrations().then(r => {
-  r[0].showNotification('哈哈')
-})
+  navigator.serviceWorker.getRegistrations().then((r) => {
+    r[0].showNotification('哈哈2')
+  })
 }, 3000)

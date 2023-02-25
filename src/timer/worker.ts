@@ -13,6 +13,12 @@ self.addEventListener('message', (e) => {
       self.postMessage(JSON.stringify({type: 'log', data:'noti'}))
       console.log('noti')
       try {
+        navigator.serviceWorker.getRegistration('./sw.js').then(reg => {
+          reg?.showNotification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
+          })
+        }).catch(err => {
+        self.postMessage(JSON.stringify({type: 'log', data:err.message}))
+        })
         const noti = new Notification('倒计时提醒：'+ `${data.loop?'循环': ''}${data.time}分钟`, {
         })
       } catch (error: any) {

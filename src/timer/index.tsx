@@ -35,7 +35,7 @@ export function Timer(props: Props) {
   return (
     <div>
       <div>
-        <div>{dayjs(remain - 8 * 3600 * 1000).format('HH:DD:ss')}</div>
+        <div>{dayjs(remain - 8 * 3600 * 1000).format('HH:mm:ss')}</div>
         <select
           value={time}
           onChange={(e) => {

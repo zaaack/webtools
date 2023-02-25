@@ -33,7 +33,8 @@ export function Timer(props: Props) {
   }, [remain, state, loop])
   useEffect(() =>{
     document.title = '计时器'
-    window.addEventListener('message', e => {
+    worker.addEventListener('message', e => {
+      console.log(e.data)
       let data = JSON.parse(e.data)
       if (data.type === 'log') {
         setLog(l =>l.concat(data.data))

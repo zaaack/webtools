@@ -24,7 +24,7 @@ export function Timer(props: Props) {
     document.title = '计时器'
     let t = setInterval(() => {
       setRefresh((s) => s + 1)
-      if (remain <= 0 && state !== 'end' && !loop) {
+      if (remain <= 100 && state !== 'end' && !loop) {
         setState('end')
       }
     }, 100)
@@ -47,6 +47,7 @@ export function Timer(props: Props) {
           <option value="5">5:00</option>
           <option value="10">10:00</option>
           <option value="15">15:00</option>
+          <option value="0.1">0:60</option>
         </select>
         <label
           htmlFor="

@@ -13,4 +13,8 @@ export default defineConfig({
   worker: {
     format: 'iife',
   },
+  define: {
+    'process.env.JGY_USER': JSON.stringify(process.env.JGY_USER),
+    'process.env.JGY_PASS': JSON.stringify(process.env.JGY_PASS),
+  }
 })

@@ -8,7 +8,9 @@ export interface Note {
   syncedAt?: Date
   createdAt: Date
   updatedAt: Date
-  deletedAt?: Date
+  trashedAt?: Date // 放到回收站
+  removedAt?: Date //彻底删除
+  images: number[]
 }
 
 export interface Category {
@@ -20,7 +22,7 @@ export interface Category {
 }
 
 export interface Image{
-  id?: number
+  id: string
   url: string
   noteId: number
   syncedAt?: Date
@@ -39,7 +41,7 @@ export class MemoDB extends Dexie {
     this.version(1).stores({
       notes: '++id, title, categoryId, createdAt,updatedAt,deletedAt', // Primary key and indexed props
       categories: '++id, title',
-      images: '++id, noteId'
+      images: 'id, noteId'
     });
   }
 }

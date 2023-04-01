@@ -20,6 +20,7 @@ import { MoreSettings } from "./MoreSettings";
 import asyncReplace from "@egoist/async-replace";
 import QuillEditor from "./QuillEditor";
 import Quill from "quill";
+import { syncHelper } from "../sync/sync-helper";
 
 {
   let Image = Quill.import('formats/image');
@@ -68,7 +69,7 @@ export function NotePage(props: Props) {
     setTitltHeight(div.offsetHeight);
     e.parentElement?.removeChild(div);
   };
-  const [note, cat, images] =
+  const [note, cat, oldImages] =
     useLiveQuery(async () => {
       if (params.id === "new") {
         return [
@@ -78,6 +79,7 @@ export function NotePage(props: Props) {
             createdAt: new Date(),
             updatedAt: new Date(),
             categoryId: 0,
+            images: [],
           } as Note,
           null,
           [],
@@ -93,7 +95,7 @@ export function NotePage(props: Props) {
         // setContent(note.content)
         setContent(
           note.content.replace(/<custom-image\s+id="(\d+)"\s*\/>/g, (_, id) => {
-            let img: Image | void = images.find((i) => i.id === Number(id));
+            let img: Image | void = images.find((i) => i.id === id);
             let b = pngBase64ToBlob(img?.url!)
             let u = URL.createObjectURL(b)
             console.log('blob url', u)
@@ -119,22 +121,31 @@ export function NotePage(props: Props) {
   async function saveNote() {
     if ((title || content) && note && isEdited) {
       note.title = title;
-      let newImages: number[] = [];
+      let newImages: string[] = [];
       note.content = await asyncReplace(
         content,
         /<img\s+src="([^>]+)"(?:\s+id="(\d+)")?\s*\/?>/g,
         async (_, url, id) => {
           if (!id) {
-            id = await db.images.add({ url, noteId: note.id! });
+            let i = 10
+            while (i--) {
+              try {
+                id = Math.random().toString(36).slice(1)
+                await db.images.add({ id, url, noteId: note.id! });
+                break
+              } catch (error) {
+                console.error(error)
+              }
+            }
           }
-          newImages.push(Number(id));
+          newImages.push(id);
           return `<custom-image id="${id}" />`;
         }
       );
-      if (images) {
-        for (const img of images) {
+      if (oldImages) {
+        for (const img of oldImages) {
           if (!newImages.includes(img.id!)) {
-            db.images.update(img.id!, { removedAt: new Date() });
+            db.images.delete(img.id);
           }
         }
       }
@@ -143,10 +154,12 @@ export function NotePage(props: Props) {
           title: note.title.trim(),
           content: note.content.trim(),
           updatedAt: new Date(),
+          images: newImages,
         });
       } else {
-        db.notes.add(note);
+        note.id = (await db.notes.add(note)) as number;
       }
+      syncHelper.updateNoteSyncInfo(note)
     }
     setIsEdited(false);
   }
@@ -165,7 +178,7 @@ export function NotePage(props: Props) {
       window.removeEventListener("beforeunload", saveNote);
       window.removeEventListener("popstate", saveNote);
     };
-  }, [title, content, note]);
+  }, [title, content, note, isEdited]);
 
   if (note === null) {
     navigate("/memo");

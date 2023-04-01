@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Category, db } from "./db";
 import css from "./index.module.scss";
-import { SyncManager } from "./sync/sync-manager";
+import { SyncManager } from "./sync/sync-helper";
 import { toText } from "./utils";
 
 const sync =new SyncManager()
@@ -28,14 +28,14 @@ function Memo(props: Props) {
       return db.notes
         .orderBy("updatedAt")
         .reverse()
-        .filter(a =>!a.deletedAt)
+        .filter(a =>!a.trashedAt)
         .toArray();
     }
     return db.notes
       .where("categoryId")
       .equals(curCatId)
       .reverse()
-        .filter(a =>!a.deletedAt)
+        .filter(a =>!a.trashedAt)
         .sortBy("updatedAt");
   }, [curCatId]);
   return (

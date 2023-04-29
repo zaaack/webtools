@@ -107,6 +107,8 @@ export function Timer(props: Props) {
                 { label: "4分钟", value: "4" },
                 { label: "10分钟", value: "10" },
                 { label: "15分钟", value: "15" },
+                { label: "20分钟", value: "20" },
+                { label: "30分钟", value: "30" },
                 { label: "6秒", value: "0.1" },
               ],
             ]}

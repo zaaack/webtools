@@ -22,7 +22,7 @@
     "@tiptap/starter-kit": "^2.0.0",
     "add": "^2.0.6",
     "antd": "^5.3.2",
-    "antd-mobile": "^5.28.2",
+    "antd-mobile": "^5.29.1",
     "antd-mobile-icons": "^0.3.0",
     "dayjs": "^1.11.7",
     "dexie": "^3.2.3",

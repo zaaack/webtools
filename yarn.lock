@@ -2183,10 +2183,10 @@ antd-mobile-v5-count@^1.0.1:
   resolved "https://registry.npmmirror.com/antd-mobile-v5-count/-/antd-mobile-v5-count-1.0.1.tgz#85f20c46d1635c24e856bcf5ad55e8c98e44a523"
   integrity sha512-YGsiEDCPUDz3SzfXi6gLZn/HpeSMW+jgPc4qiYUr1fSopg3hkUie2TnooJdExgfiETHefH3Ggs58He0OVfegLA==
 
-antd-mobile@^5.28.2:
-  version "5.28.2"
-  resolved "https://registry.npmmirror.com/antd-mobile/-/antd-mobile-5.28.2.tgz#bb11fd47a9b9cab340801aa21e51ce78f439b157"
-  integrity sha512-v0zKI2QB1erTL+E5mLmHuWJnEFP9NfjIjrrmVllAAn/llPs3wU4hozuWG4wXC0HbSq2oQv801iJElQE7UavH9w==
+antd-mobile@^5.29.1:
+  version "5.29.1"
+  resolved "https://registry.npmmirror.com/antd-mobile/-/antd-mobile-5.29.1.tgz#3fd2b8be50d083ca33c3e0ff880cfe456aeb15e0"
+  integrity sha512-cqrwMV1BaAIY0CMnD9Yy2RjAJc4lsEn1amkNQ/ylYbdCvbVqnEZ6sf1a0mFDwk/jQE6j/ANOW+QokR2lNPMrgg==
   dependencies:
     "@floating-ui/dom" "^1.0.6"
     "@rc-component/mini-decimal" "^1.0.1"
